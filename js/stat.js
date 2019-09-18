@@ -13,8 +13,8 @@ var NAME_Y = 260;
 var MAX_TINE_Y = 230;
 var INTERVAL_TERM = 100;
 var TEXT_X = 120;
-var TEXT_VICTORY_Y = 50;
-var TEXT_RESULT_Y = 70;
+var TEXT_VICTORY_Y = 35;
+var TEXT_RESULT_Y = 55;
 
 var renderCloud = function (ctx, x, y, color) {
   ctx.fillStyle = color;
@@ -49,11 +49,10 @@ window.renderStatistics = function (ctx, names, times) {
 
   var maxTime = getMaxElement(times);
   var interval = 0;
-  var names = ['Петр', 'Кекс', 'Катя', 'Игорь'];
 
   // Рисуем гистограму
   for (var i = 0; i < names.length; i++) {
-    ctx.fillStyle = names[i] === 'Петр' ? 'rgba(255, 0, 0, 1)' : randomColor();
+    ctx.fillStyle = names[i] === 'Вы' ? 'rgba(255, 0, 0, 1)' : randomColor();
     ctx.fillRect(BAR_X + interval, BAR_Y, BAR_WIDTH, -(MAX_BAR_HEIGHT * times[i]) / maxTime);
     ctx.fillStyle = '#000';
     ctx.fillText(Math.round(times[i]), BAR_X + interval, MAX_TINE_Y - ((MAX_BAR_HEIGHT * times[i]) / maxTime));
@@ -61,14 +60,3 @@ window.renderStatistics = function (ctx, names, times) {
     interval += INTERVAL_TERM;
   }
 };
-
-
-
-
-
-
-
-
-
-
-
