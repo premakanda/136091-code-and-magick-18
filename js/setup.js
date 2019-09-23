@@ -6,7 +6,6 @@ var WIZARD_COATCAOLOR = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 10
 var WIZARD_EYESCAOLOR = ['black', 'red', 'blue', 'yellow', 'green'];
 
 var userDialog = document.querySelector('.setup');
-userDialog.classList.remove('hidden');
 var similarListElement = userDialog.querySelector('.setup-similar-list');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template')
   .content
@@ -39,8 +38,6 @@ var renderWizard = function (wizard) {
   return wizardElement;
 };
 
-//  var wizards = generateWizards();
-
 var renderWizards = function (arr) {
   var fragment = document.createDocumentFragment();
   for (var t = 0; t < arr.length; t++) {
@@ -48,13 +45,8 @@ var renderWizards = function (arr) {
   }
   similarListElement.appendChild(fragment);
 };
-renderWizards();
-// var fragment = document.createDocumentFragment();
-// for (var t = 0; t < wizards.length; t++) {
-//   fragment.appendChild(renderWizard(wizards[t]));
-// }
-// similarListElement.appendChild(fragment);
 
+userDialog.classList.remove('hidden');
+var wizards = generateWizards(4);
+renderWizards(wizards);
 userDialog.querySelector('.setup-similar').classList.remove('hidden');
-
-
