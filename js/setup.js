@@ -50,3 +50,73 @@ userDialog.classList.remove('hidden');
 var wizards = generateWizards(4);
 renderWizards(wizards);
 userDialog.querySelector('.setup-similar').classList.remove('hidden');
+
+
+// задвние: одеть Надежду
+var setup = document.querySelector('.setup');
+var setupOpen = document.querySelector('.setup-open');
+var setupClose = setup.querySelector('.setup-close');
+var setupIcon = setup.querySelector('.setup-open-icon');
+// var nameForm = setup.querySelector('.setup-user-name');
+var wizardCoat = document.querySelector('.setup-wizard .wizard-coat');
+var wizardEyes = document.querySelector('.setup-wizard .wizard-eyes');
+var wizardFireball = document.querySelector('.setup-fireball-wrap');
+
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+var WIZARD_FIREBALL = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
+
+wizardCoat.addEventListener('click', function () {
+  wizardCoat.fill = getRandomItem(WIZARD_COATCAOLOR);
+});
+
+wizardEyes.addEventListener('click', function () {
+  wizardCoat.style.color = getRandomItem(WIZARD_EYESCAOLOR);
+});
+
+wizardFireball.addEventListener('click', function () {
+  wizardFireball.style.backgroundColor = getRandomItem(WIZARD_FIREBALL);
+});
+
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
+};
+
+var openPopup = function () {
+  setup.classList.remove('hidden');
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+var closePopup = function () {
+  setup.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+setupOpen.addEventListener('click', function () {
+  openPopup();
+});
+
+setupOpen.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    openPopup();
+  }
+});
+
+setupClose.addEventListener('click', function () {
+  closePopup();
+});
+
+setupClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    closePopup();
+  }
+});
+
+setupIcon.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    openPopup();
+  }
+});
+
