@@ -2,8 +2,8 @@
 
 (function () {
 
-  var dialogHandler = window.setupElement.querySelector('.upload');
-
+  var setupElement = document.querySelector('.setup');
+  var dialogHandler = setupElement.querySelector('.upload');
   dialogHandler.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
@@ -28,8 +28,8 @@
         y: moveEvt.clientY
       };
 
-      window.setupElement.style.top = (window.setupElement.offsetTop - shift.y) + 'px';
-      window.setupElement.style.left = (window.setupElement.offsetLeft - shift.x) + 'px';
+      setupElement.style.top = (setupElement.offsetTop - shift.y) + 'px';
+      setupElement.style.left = (setupElement.offsetLeft - shift.x) + 'px';
 
     };
 
@@ -40,7 +40,7 @@
       document.removeEventListener('mouseup', onMouseUp);
 
       if (dragged) {
-        var onClickPreventDefault = function (evt) {
+        var onClickPreventDefault = function () {
           evt.preventDefault();
           dialogHandler.removeEventListener('click', onClickPreventDefault);
         };
@@ -53,6 +53,5 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
-  dialogHandler.addEventListener('mousedown', onMouseMove);
 })();
 
