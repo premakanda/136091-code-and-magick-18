@@ -76,7 +76,7 @@
 
   wizardFireball.addEventListener('click', function () {
     var fireBall = getRandomItem(WIZARD_FIREBALL);
-    wizardFireball.style.fill = fireBall;
+    wizardFireball.style.backgroundColor = fireBall;
     setupElement.querySelector('input[name="fireball-color"]').value = fireBall;
   });
 
@@ -116,6 +116,38 @@
       closePopup();
     }
   });
+
+  var form = setupElement.querySelector('.setup-wizard-form');
+  form.addEventListener('submit', function (evt) {
+    window.upload(new FormData(form), function (response) {
+      setupElement.classList.add('hidden');
+    });
+    evt.preventDefault();
+  });
+
+  var successHandler = function (wizards) {
+    var fragment = document.createDocumentFragment();
+
+    for (var i = 0; i < 4; i++) {
+      fragment.appendChild(renderWizard(wizards[i]));
+    }
+    similarListElement.appendChild(fragment);
+
+    setupElement.querySelector('.setup-similar').classList.remove('hidden');
+  };
+
+  var errorHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  window.load(successHandler, errorHandler);
 
 })();
 
