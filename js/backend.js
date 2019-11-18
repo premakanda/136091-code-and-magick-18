@@ -1,104 +1,46 @@
 'use strict';
+
 (function () {
-  var URL = 'https://js.dump.academy/code-and-magick';
+  var DATA_TYPE = 'json';
+  var SUCCESS_CODE = 200;
 
-  window.backend = {
-    load: function (onLoad, onError) {
-      var xhr = new XMLHttpRequest();
-      xhr.responseType = 'json';
+  var loadURL = 'https://js.dump.academy/code-and-magick/data';
+  var saveURL = 'https://js.dump.academy/code-and-magick';
 
-      xhr.addEventListener('load', function () {
-        if (xhr.status === 200) {
-          onLoad(xhr.response);
-        } else {
-          onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
-        }
-      });
-      xhr.addEventListener('error', function () {
-        onError('Произошла ошибка соединения');
-      });
-      xhr.addEventListener('timeout', function () {
-        onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
-      });
-
-      xhr.timeout = 10000; // 10s
-
-      xhr.open('GET', URL);
-      xhr.send();
-
-    },
-
-    save: function (data, onLoad, onError) {
-      // var fragment = document.createDocumentFragment();
-
-      // for (var i = 0; i < 4; i++) {
-      //   fragment.appendChild(renderWizard(data[i]));
-      // }
-      // similarListElement.appendChild(fragment);
-
-      // userDialog.querySelector('.setup-similar').classList.remove('hidden');
-
-      var xhr = new XMLHttpRequest();
-      xhr.responseType = 'json';
-
-
-      xhr.addEventListener('load', function () {
-        if (xhr.status === 200) {
-          onLoad(xhr.response);
-        } else {
-          onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
-        }
-      });
-      xhr.addEventListener('error', function () {
-        onError('Произошла ошибка соединения');
-      });
-      xhr.addEventListener('timeout', function () {
-        onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
-      });
-
-      xhr.timeout = 10000; // 10s
-
-      xhr.open('GET', URL);
-      xhr.send();
+  var transmitData = function (xhr, onLoad, onError, processAction) {
+    if (xhr.status === SUCCESS_CODE) {
+      onLoad(xhr.response);
+    } else {
+      var errorAction = processAction === 'load' ? 'загрузить' : 'сохранить';
+      onError('Не удалось ' + errorAction + ' данные: ' + xhr.status + ' ' + xhr.statusText);
     }
   };
 
+  var processData = function (onLoad, onError, processAction, data) {
+    var xhr = new XMLHttpRequest();
+    var url = processAction === 'load' ? loadURL : saveURL;
+    var method = processAction === 'load' ? 'GET' : 'POST';
 
-  // var URL = 'https://js.dump.academy/code-and-magick';
+    xhr.responseType = DATA_TYPE;
+    xhr.open(method, url);
 
-  // window.upload = function (data, onSuccess) {
-  //   var xhr = new XMLHttpRequest();
-  //   xhr.responseType = 'json';
+    xhr.addEventListener('load', function () {
+      transmitData(xhr, onLoad, onError, processAction);
+    });
 
-  //   xhr.addEventListener('load', function () {
-  //     onSuccess(xhr.response);
-  //   });
+    if (processAction === 'load') {
+      xhr.send();
+    } else if (processAction === 'save') {
+      xhr.send(data);
+    }
+  };
 
-  //   xhr.open('POST', URL);
-  //   xhr.send(data);
-  // };
-
-  // window.load = function (onSuccess, onError) {
-  //   var xhr = new XMLHttpRequest();
-  //   xhr.responseType = 'json';
-
-  //   xhr.addEventListener('load', function () {
-  //     if (xhr.status === 200) {
-  //       onSuccess(xhr.response);
-  //     } else {
-  //       onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
-  //     }
-  //   });
-  //   xhr.addEventListener('error', function () {
-  //     onError('Произошла ошибка соединения');
-  //   });
-  //   xhr.addEventListener('timeout', function () {
-  //     onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
-  //   });
-
-  //   xhr.timeout = 10000; // 10s
-
-  //   xhr.open('GET', URL);
-  //   xhr.send();
-  // };
+  window.backend = {
+    load: function (onLoad, onError) {
+      processData(onLoad, onError, 'load');
+    },
+    save: function (data, onLoad, onError) {
+      processData(onLoad, onError, 'save', data);
+    }
+  };
 })();

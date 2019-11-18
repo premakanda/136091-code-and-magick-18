@@ -70,8 +70,8 @@
 <div class="overlay setup hidden">
   <form class="setup-wizard-form"
         method="post"
-        action="https://js.dump.academy/code-and-magick"
         enctype="multipart/form-data"
+        action="https://js.dump.academy/code-and-magick"
         autocomplete="off">
 
     <div class="setup-title">
@@ -82,7 +82,8 @@
         </div>
         <label>
           <input type="text" name="username"
-          minlength="2" maxlength="25" required
+                 minlength="2"
+                 maxlength="25" required
                  class="setup-user-name" value="Синий Пендальф"/>
         </label>
       </div>
@@ -181,29 +182,38 @@
     <p class="setup-similar-label">Петр Петров</p>
   </div>
 </template>
+
 <script>
-  var fireballSize = 22;
+  'use strict';
+
+  var FIREBALL_SIZE = 22;
+  var WIZARD_SPEED = 3;
+  var WIZARD_WIDTH = 70;
+  var WIZARD_DIMENSION_RATIO = 1.337;
+
   var getFireballSpeed = function (left) {
-    return left ? 5 : -2;
+    return left ? 5 : 2;
   };
-  var wizardSpeed = 3;
-  var wizardWidth = 70;
   var getWizardHeight = function () {
-   return wizardWidth * 1.337;
+    return WIZARD_DIMENSION_RATIO * WIZARD_WIDTH;
   };
-  var getWizardX = function (width) {
-    return width / 2 - wizardWidth / 2;
-  };
-  var getWizardY = function (height) {
-    return height / 2.5;
-  };
+  function getWizardX(width) {
+    return width / 2;
+  }
+  function getWizardY(height) {
+    return height / 3;
+  }
 </script>
-<!-- <script src="js/backend.js"></script> -->
-<script src="js/util.js"></script>
-<script src="js/setup.js"></script>
-<script src="js/dialog.js"></script>
-<script src="js/stat.js"></script>
-<script src="js/game.js"></script>
+
 <script src="js/backend.js"></script>
+<script src="js/stat.js"></script>
+<script src="js/avatar.js"></script>
+<script src="js/render.js"></script>
+<script src="js/setup.js"></script>
+<script src="js/load.js"></script>
+<script src="js/similar.js"></script>
+<script src="js/game.js"></script>
+<script src="js/dialog.js"></script>
+
 </body>
 </html>
